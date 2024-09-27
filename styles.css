@@ -1,0 +1,53 @@
+.tbl{
+    border-collapse: collapse;
+    width: 100%;
+    background-color:rgb(255, 204, 0);
+}
+
+tr{
+    text-align: center;
+}
+th,td{
+    padding: 5px;
+    font-weight: bold;
+}
+.tbl-2{
+    border-collapse: collapse;
+    width: 100%;
+    
+}
+.tbl-3{
+    border-collapse: collapse;
+    width: 100%;
+}
+.header2{
+    background-color:rgb(255, 204, 0);
+  }
+  #pd{
+    background-color:#d9f1fc ;
+  }
+  .pdv{
+    background-color: whitesmoke;
+  }
+  #pd7{
+    background-color: #7ac9ee;
+  }
+  #pd8{
+    background-color: #1975a3;
+  }
+  
+  .empname{
+    background-color: #81D161;
+  }
+  #mv3{
+    background-color: #FEBABA;
+  }
+  .mv{
+    background-color: #c0f0f3;
+  }
+  #hr{
+    background-color: #E2EAF4;
+  }
+  .hrv{
+    background-color: yellow;
+  }
