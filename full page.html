@@ -1,0 +1,170 @@
+<html>
+<head>
+    <style>
+        /* Full-page grid layout for 9 dropdowns */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px; /* Reduced gap between the grid items */
+            padding: 20px;
+            width: 80%; /* Adjusted width to fit everything neatly */
+            box-sizing: border-box;
+        }
+        .grid-item {
+            background-color: #fff;
+            padding: 10px; /* Reduced padding for better fitting */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        select {
+            width: 100%;
+            padding: 8px; /* Reduced padding */
+            font-size: 14px; /* Reduced font size */
+            margin-top: 10px;
+            margin-bottom: 15px; /* Adds space below the dropdown */
+        }
+        .time-display {
+            margin-top: 10px;
+            font-size: 14px; /* Reduced font size */
+            font-weight: bold;
+            background-color: #FFFF00;
+            padding: 8px; /* Reduced padding */
+            border-radius: 5px;
+            white-space: nowrap; /* Prevents the time from breaking onto multiple lines */
+            overflow: hidden; /* Ensures content doesn't overflow */
+            text-overflow: ellipsis; /* Adds '...' if content is too long */
+            display: block; /* Forces the time display to occupy its own line */
+            width: 100%; /* Ensures it takes up full width of the container */
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- First column -->
+        <div class="grid-item">
+            <form method="post" name="f1">
+                <select name="tz1" onChange="disp_TZ1()"></select>
+                <span id='ct1' class="time-display">Select Time Zone 1</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f2">
+                <select name="tz2" onChange="disp_TZ2()"></select>
+                <span id='ct2' class="time-display">Select Time Zone 2</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f3">
+                <select name="tz3" onChange="disp_TZ3()"></select>
+                <span id='ct3' class="time-display">Select Time Zone 3</span>
+            </form>
+        </div>
+
+        <!-- Second column -->
+        <div class="grid-item">
+            <form method="post" name="f4">
+                <select name="tz4" onChange="disp_TZ4()"></select>
+                <span id='ct4' class="time-display">Select Time Zone 4</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f5">
+                <select name="tz5" onChange="disp_TZ5()"></select>
+                <span id='ct5' class="time-display">Select Time Zone 5</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f6">
+                <select name="tz6" onChange="disp_TZ6()"></select>
+                <span id='ct6' class="time-display">Select Time Zone 6</span>
+            </form>
+        </div>
+
+        <!-- Third column -->
+        <div class="grid-item">
+            <form method="post" name="f7">
+                <select name="tz7" onChange="disp_TZ7()"></select>
+                <span id='ct7' class="time-display">Select Time Zone 7</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f8">
+                <select name="tz8" onChange="disp_TZ8()"></select>
+                <span id='ct8' class="time-display">Select Time Zone 8</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f9">
+                <select name="tz9" onChange="disp_TZ9()"></select>
+                <span id='ct9' class="time-display">Select Time Zone 9</span>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var my_timezones = [
+            // List of time zones (few examples included)
+            'Africa/Cairo', 'Asia/Kolkata', 'Asia/Tokyo', 'America/New_York', 'Europe/London', 'America/Chicago',
+            'America/Los_Angeles', 'Australia/Sydney', 'Europe/Berlin', 'Europe/Paris'
+        ];
+
+        // Function to populate all dropdowns with timezones
+        function populateTimezones() {
+            for (var i = 0; i < my_timezones.length; i++) {
+                addOption(document.f1.tz1, my_timezones[i], my_timezones[i]);
+                addOption(document.f2.tz2, my_timezones[i], my_timezones[i]);
+                addOption(document.f3.tz3, my_timezones[i], my_timezones[i]);
+                addOption(document.f4.tz4, my_timezones[i], my_timezones[i]);
+                addOption(document.f5.tz5, my_timezones[i], my_timezones[i]);
+                addOption(document.f6.tz6, my_timezones[i], my_timezones[i]);
+                addOption(document.f7.tz7, my_timezones[i], my_timezones[i]);
+                addOption(document.f8.tz8, my_timezones[i], my_timezones[i]);
+                addOption(document.f9.tz9, my_timezones[i], my_timezones[i]);
+            }
+        }
+
+        // Add options to the select boxes
+        function addOption(selectbox, text, value) {
+            var optn = document.createElement("OPTION");
+            optn.text = text;
+            optn.value = value;
+            selectbox.options.add(optn);
+        }
+
+        // Display time for each time zone
+        function disp_TZ1() { displayTime('ct1', document.f1.tz1); }
+        function disp_TZ2() { displayTime('ct2', document.f2.tz2); }
+        function disp_TZ3() { displayTime('ct3', document.f3.tz3); }
+        function disp_TZ4() { displayTime('ct4', document.f4.tz4); }
+        function disp_TZ5() { displayTime('ct5', document.f5.tz5); }
+        function disp_TZ6() { displayTime('ct6', document.f6.tz6); }
+        function disp_TZ7() { displayTime('ct7', document.f7.tz7); }
+        function disp_TZ8() { displayTime('ct8', document.f8.tz8); }
+        function disp_TZ9() { displayTime('ct9', document.f9.tz9); }
+
+        // Function to display the time for a given time zone
+        function displayTime(elementId, selectElement) {
+            var tz = selectElement.options[selectElement.selectedIndex].value;
+            var str = new Date().toLocaleString("en-NZ", { timeZone: tz, timeZoneName: "short" });
+            document.getElementById(elementId).innerHTML = str + ", " + tz;
+            setTimeout(function() { displayTime(elementId, selectElement); }, 1000); // Refresh every second
+        }
+
+        // Populate dropdowns and display initial time
+        populateTimezones();
+        disp_TZ1(); disp_TZ2(); disp_TZ3(); disp_TZ4(); disp_TZ5(); disp_TZ6();
+        disp_TZ7(); disp_TZ8(); disp_TZ9();
+    </script>
+</body>
+</html>
