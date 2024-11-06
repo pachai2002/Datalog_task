@@ -1,0 +1,226 @@
+<html>
+<head>
+    <style>
+        /* Full-page grid layout for 9 dropdowns */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .format-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            padding: 20px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+        .grid-item {
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .time-display {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #FFFF00;
+            padding: 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Format Selector -->
+    <div class="format-selector">
+        <label for="dateFormat">Select Date Format: </label>
+        <select id="dateFormat" onChange="updateDateFormat()">
+            <option value="DD-MM-YYYY">Day-Month-Year (DD-MM-YYYY)</option>
+            <option value="MM-DD-YYYY">Month-Day-Year (MM-DD-YYYY)</option>
+            <option value="YYYY-MM-DD">Year-Month-Day (YYYY-MM-DD)</option>
+        </select>
+    </div>
+
+    <div class="grid-container">
+        <!-- Dropdowns for each timezone -->
+        <div class="grid-item">
+            <form method="post" name="f1">
+                <select name="tz1" onChange="disp_TZ1()"></select>
+                <span id='ct1' class="time-display">Select Time Zone 1</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f2">
+                <select name="tz2" onChange="disp_TZ2()"></select>
+                <span id='ct2' class="time-display">Select Time Zone 2</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f3">
+                <select name="tz3" onChange="disp_TZ3()"></select>
+                <span id='ct3' class="time-display">Select Time Zone 3</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f4">
+                <select name="tz4" onChange="disp_TZ4()"></select>
+                <span id='ct4' class="time-display">Select Time Zone 4</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f5">
+                <select name="tz5" onChange="disp_TZ5()"></select>
+                <span id='ct5' class="time-display">Select Time Zone 5</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f6">
+                <select name="tz6" onChange="disp_TZ6()"></select>
+                <span id='ct6' class="time-display">Select Time Zone 6</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f7">
+                <select name="tz7" onChange="disp_TZ7()"></select>
+                <span id='ct7' class="time-display">Select Time Zone 7</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f8">
+                <select name="tz8" onChange="disp_TZ8()"></select>
+                <span id='ct8' class="time-display">Select Time Zone 8</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form method="post" name="f9">
+                <select name="tz9" onChange="disp_TZ9()"></select>
+                <span id='ct9' class="time-display">Select Time Zone 9</span>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var my_timezones = [
+            'Africa/Cairo', 'Asia/Kolkata', 'Asia/Tokyo', 'America/New_York', 'Europe/London', 'America/Chicago',
+            'America/Los_Angeles', 'Australia/Sydney', 'Europe/Berlin', 'Europe/Paris'
+        ];
+
+        // Default date format
+        var dateFormat = localStorage.getItem("dateFormat") || "DD-MM-YYYY";
+
+        // Function to populate all dropdowns with timezones
+        function populateTimezones() {
+            for (var i = 0; i < my_timezones.length; i++) {
+                addOption(document.f1.tz1, my_timezones[i], my_timezones[i]);
+                addOption(document.f2.tz2, my_timezones[i], my_timezones[i]);
+                addOption(document.f3.tz3, my_timezones[i], my_timezones[i]);
+                addOption(document.f4.tz4, my_timezones[i], my_timezones[i]);
+                addOption(document.f5.tz5, my_timezones[i], my_timezones[i]);
+                addOption(document.f6.tz6, my_timezones[i], my_timezones[i]);
+                addOption(document.f7.tz7, my_timezones[i], my_timezones[i]);
+                addOption(document.f8.tz8, my_timezones[i], my_timezones[i]);
+                addOption(document.f9.tz9, my_timezones[i], my_timezones[i]);
+            }
+
+            restorePreviousSelections();
+            document.getElementById("dateFormat").value = dateFormat;
+        }
+
+        function addOption(selectbox, text, value) {
+            var optn = document.createElement("OPTION");
+            optn.text = text;
+            optn.value = value;
+            selectbox.options.add(optn);
+        }
+
+        // Display time in each timezone according to the selected format
+        function disp_TZ1() { displayTime('ct1', document.f1.tz1, 'tz1'); }
+        function disp_TZ2() { displayTime('ct2', document.f2.tz2, 'tz2'); }
+        function disp_TZ3() { displayTime('ct3', document.f3.tz3, 'tz3'); }
+        function disp_TZ4() { displayTime('ct4', document.f4.tz4, 'tz4'); }
+        function disp_TZ5() { displayTime('ct5', document.f5.tz5, 'tz5'); }
+        function disp_TZ6() { displayTime('ct6', document.f6.tz6, 'tz6'); }
+        function disp_TZ7() { displayTime('ct7', document.f7.tz7, 'tz7'); }
+        function disp_TZ8() { displayTime('ct8', document.f8.tz8, 'tz8'); }
+        function disp_TZ9() { displayTime('ct9', document.f9.tz9, 'tz9'); }
+
+        // Display time for each timezone with selected date format and current time
+        function displayTime(elementId, selectElement, storageKey) {
+            var tz = selectElement.options[selectElement.selectedIndex].value;
+            localStorage.setItem(storageKey, tz);
+
+            var now = new Date().toLocaleString("en-NZ", { timeZone: tz });
+            var dateTimeParts = now.split(", ");
+            var datePart = dateTimeParts[0];
+            var timePart = dateTimeParts[1];
+            var formattedDate = formatDate(datePart, dateFormat);
+
+            var displayText = `${formattedDate}, ${timePart} (${tz})`;
+            document.getElementById(elementId).innerHTML = displayText;
+
+            setTimeout(function() { displayTime(elementId, selectElement, storageKey); }, 1000);
+        }
+
+        // Update date format
+        function updateDateFormat() {
+            dateFormat = document.getElementById("dateFormat").value;
+            localStorage.setItem("dateFormat", dateFormat);
+            disp_TZ1(); disp_TZ2(); disp_TZ3(); disp_TZ4(); disp_TZ5();
+            disp_TZ6(); disp_TZ7(); disp_TZ8(); disp_TZ9();
+        }
+
+        // Format the date based on the selected format
+        function formatDate(dateString, format) {
+            var dateParts = dateString.split("/");
+            var day = dateParts[0];
+            var month = dateParts[1];
+            var year = dateParts[2];
+            switch (format) {
+                case "DD-MM-YYYY": return `${day}-${month}-${year}`;
+                case "MM-DD-YYYY": return `${month}-${day}-${year}`;
+                case "YYYY-MM-DD": return `${year}-${month}-${day}`;
+                default: return dateString;
+            }
+        }
+
+        // Restore previous timezone selections and initialize display
+        function restorePreviousSelections() {
+            if (localStorage.getItem("tz1")) { document.f1.tz1.value = localStorage.getItem("tz1"); disp_TZ1(); }
+            if (localStorage.getItem("tz2")) { document.f2.tz2.value = localStorage.getItem("tz2"); disp_TZ2(); }
+            if (localStorage.getItem("tz3")) { document.f3.tz3.value = localStorage.getItem("tz3"); disp_TZ3(); }
+            if (localStorage.getItem("tz4")) { document.f4.tz4.value = localStorage.getItem("tz4"); disp_TZ4(); }
+            if (localStorage.getItem("tz5")) { document.f5.tz5.value = localStorage.getItem("tz5"); disp_TZ5(); }
+            if (localStorage.getItem("tz6")) { document.f6.tz6.value = localStorage.getItem("tz6"); disp_TZ6(); }
+            if (localStorage.getItem("tz7")) { document.f7.tz7.value = localStorage.getItem("tz7"); disp_TZ7(); }
+            if (localStorage.getItem("tz8")) { document.f8.tz8.value = localStorage.getItem("tz8"); disp_TZ8(); }
+            if (localStorage.getItem("tz9")) { document.f9.tz9.value = localStorage.getItem("tz9"); disp_TZ9(); }
+        }
+
+        window.onload = populateTimezones;
+    </script>
+</body>
+</html>
